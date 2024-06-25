@@ -25,6 +25,7 @@ export class FormComponent<T> extends EssentialComponent implements OnInit, Afte
   @Input() formConfig!: FormConfig[] 
   @Input() startingValues!: T | null
   @Output() onSubmit: EventEmitter<any> = new EventEmitter()
+  @Output() onChanges: EventEmitter<FormGroup<any>> = new EventEmitter()
   form!:FormGroup
 
   private generateForm(formConfig: FormConfig[]){
@@ -36,7 +37,12 @@ export class FormComponent<T> extends EssentialComponent implements OnInit, Afte
   }
 
   ngAfterViewInit(): void {
-    
+    this.form.valueChanges.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe( (value) => {
+      this.onChanges.emit(this.form)
+    })
+    console.log(this.startingValues)
     if( this.startingValues){
       this.form?.patchValue(this.startingValues )
     }

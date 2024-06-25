@@ -6,12 +6,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UsersService extends EssentialService {
+  
   constructor() {
     super();
     this.apiPath = 'users';
   }
 
   getUsers(): Observable<User[]> {
+    return this.apiCall<User[]>({
+      type: 'GET',
+      url: this.apiUrl,
+    });
+  }
+
+  getUsers2(): Observable<User[]> {
     return this.apiCall<User[]>({
       type: 'GET',
       url: this.apiUrl,

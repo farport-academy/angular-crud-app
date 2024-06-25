@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { UsersService } from '../users.service';
 import { EssentialComponent } from '../../../core/essentialComponent';
 import { userFormConfig } from '../users.config';
-import { catchError, takeUntil, throwError } from 'rxjs';
+import { catchError, map, takeUntil, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-users-detail',
@@ -13,12 +13,15 @@ export class UsersDetailComponent extends EssentialComponent {
   usersService = inject(UsersService);
   formConfig = userFormConfig;
 
-  user$ = this.usersService.getUser(this.routeParams['id']).pipe(
-    catchError((error) => {
-      this.router.navigate(['/']);
-      return throwError(() => error);
-    })
+  user$ = this.route.data.pipe(
+    map((data) => data['user']),
   );
+
+  ngOnInit() {
+    this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      console.log(data)
+    })
+  }
 
   deleteUser(user: any) {
     this.usersService

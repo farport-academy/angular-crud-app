@@ -14,6 +14,7 @@ export class UsersListComponent extends EssentialComponent{
    usersService = inject(UsersService);
    tableConfig = userTableConfig
    users$ = this.usersService.getUsers();
+  
 
    goToDetail(user:User){
      this.router.navigate([user.id])

@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UsersDetailComponent } from './users-detail/users-detail.component';
 import { UsersNewComponent } from './users-new/users-new.component';
+import { canDeactivateComponentGuard } from '../../core/guards/canDeactivateComponent.guard';
+import { resolveGuard } from '../../core/guards/resolve.guard';
 
 const routes: Routes = [
     {
@@ -11,11 +13,13 @@ const routes: Routes = [
     },
     {
         path: 'new',
-        component: UsersNewComponent
+        component: UsersNewComponent,
+        canDeactivate: [canDeactivateComponentGuard]
     },
     {
         path: ':id',
-        component: UsersDetailComponent
+        component: UsersDetailComponent,
+        resolve: { user: resolveGuard }
     }
 ];
 
