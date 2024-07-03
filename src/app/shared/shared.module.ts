@@ -7,6 +7,7 @@ import { TableComponent } from './table/table.component';
 import { LoadingComponent } from './loading/loading.component';
 import { MaterialModule } from './material.module';
 import { HeaderComponent } from './header/header.component';
+import { ConfirmDialogComponent } from './confirm/confirm.component';
 
 
 
@@ -16,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
     ErrorComponent,
     TableComponent,
     HeaderComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,

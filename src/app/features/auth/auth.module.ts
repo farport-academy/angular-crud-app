@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
-import { SignupComponent, SignupConfirmDialog } from './signup/signup.component';
+import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { SharedModule } from '../../shared/shared.module';
 
@@ -12,8 +12,7 @@ import { SharedModule } from '../../shared/shared.module';
   declarations: [
     AuthComponent,
     SignupComponent,
-    SigninComponent,
-    SignupConfirmDialog
+    SigninComponent
   ],
   imports: [
     CommonModule,

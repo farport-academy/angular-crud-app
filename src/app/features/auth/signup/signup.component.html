@@ -1,5 +1,5 @@
 <h1>Create User</h1>
-<button (click)="goBack()">Back</button>
+<button [routerLink]="['/']">Back</button>
 <app-form 
     [formConfig]="formConfig" 
     (onSubmit)="createUser($event)" 

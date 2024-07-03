@@ -1,16 +1,29 @@
 import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivateFn } from '@angular/router';
-import { SignupConfirmDialog } from '../../features/auth/signup/signup.component';
+import { firstValueFrom } from 'rxjs';
+import { ConfirmDialogComponent } from '../../shared/confirm/confirm.component';
 
 export interface CanDeactivateComponent {
-  canDeactivate: () => boolean
+  canDeactivate: () => boolean;
+  dialogTitle?: string;
+  dialogContent?: string;
 }
 
-export const canExitGuard: CanDeactivateFn <CanDeactivateComponent> =  (component) => {
+export const canExitGuard: CanDeactivateFn<CanDeactivateComponent> = (component) => {
+  const dialog = inject(MatDialog);
+  const title = component.dialogTitle || 'Conferma';
+  const content = component.dialogContent || 'Sei sicuro di voler abbandonare la pagina?';
 
-
-  const canDeactivate = component.canDeactivate()
-  return canDeactivate
-  
+  const data = { title, content };
+  if (component.canDeactivate()) {
+    return Promise.resolve(true);
+  } else {
+    const dialogRef = dialog.open(ConfirmDialogComponent, {
+      data,
+    } );
+    return firstValueFrom(dialogRef.afterClosed()).then((result: any) => {
+      return result || false;
+    });
+  }
 };

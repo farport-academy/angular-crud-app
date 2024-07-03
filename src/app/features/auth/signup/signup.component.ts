@@ -9,32 +9,6 @@ import { CanDeactivateComponent } from '../../../core/guards/can-exit.guard';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../../shared/auth/auth.service';
 import { take, takeUntil } from 'rxjs';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-
-@Component({
-  selector: 'app-signup-confirm',
-  template: `
-    <h2 mat-dialog-title>Conferma</h2>
-    <mat-dialog-content>
-      sei sicuro di voler abbandonare la pagina?
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-button (click)="confirm()">Procedi</button>
-      <button mat-button color="danger" (click)="decline()">Annulla</button>
-    </mat-dialog-actions>
-  `,
-})
-export class SignupConfirmDialog {
-
-  dialogRef = inject(MatDialogRef)
-
-  confirm(){
-    this.dialogRef.close(true)
-  }
-  decline(){
-    this.dialogRef.close(false)
-  }
-}
 
 @Component({
   selector: 'app-signup',
@@ -49,7 +23,10 @@ export class SignupComponent
   globalValidators = globalSignupFormConfig;
   authService = inject(AuthService);
   canLeave = true;
-  dialog = inject(MatDialog)
+
+  dialogTitle = 'Sei Sicuro? ';
+  dialogContent = 'I tuoi dati andranno persi';
+
 
   createUser(user: User) {
     const { confirmPassword, ...currentUser } = user;
@@ -67,23 +44,6 @@ export class SignupComponent
       });
   }
 
-  goBack(){
-    if(!this.canLeave){
-      const dialogRef = this.dialog.open(SignupConfirmDialog)
-      dialogRef.afterClosed().subscribe(
-        (dialogResult) =>{
-          this.canLeave = dialogResult
-          if (this.canLeave){
-            this.router.navigate(['./'])
-          }
-       
-        }
-      )
-    }else{
-      this.router.navigate(['./'])
-    }
-    
-  }
   canDeactivate() {
     return this.canLeave;
   }
